@@ -3,14 +3,14 @@
   "id": "modid",
   "version": "${version}",
 
-  "name": "Example Mod",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "name": "Example Imgui Mod",
+  "description": "An example mod utilizing Imgui.",
   "authors": [
     "Me!"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "homepage": "https://github.com/breadbyte/fabric-example-imgui",
+    "sources": "https://github.com/breadbyte/fabric-example-imgui"
   },
 
   "license": "CC0-1.0",
