@@ -70,9 +70,7 @@ public class ImguiScreen extends Screen {
 
     @Override
     public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
-        if (ImGuiIO.getWantCaptureKeyboard()) {
-            ImGuiIO.getKeysDown()[keyCode] = false;
-        }
+        ImGuiIO.getKeysDown()[keyCode] = false;
         super.keyReleased(keyCode, scanCode, modifiers);
         return true;
     }
