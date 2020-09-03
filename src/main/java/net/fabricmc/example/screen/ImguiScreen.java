@@ -64,6 +64,11 @@ public class ImguiScreen extends Screen {
         if (ImGuiIO.getWantCaptureKeyboard()) {
             ImGuiIO.getKeysDown()[keyCode] = true;
         }
+
+        if (keyCode == 256){
+            ImGuiIO.getKeysDown()[256] = false;
+        }
+
         super.keyPressed(keyCode, scanCode, modifiers);
         return true;
     }
