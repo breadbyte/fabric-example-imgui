@@ -4,7 +4,7 @@ This is a fork of the Fabric Example Mod, modified to utilize the [kotlin-graphi
 
 The R key should open the Demo GUI up.
 
-The gradle files need special attention due to [kotlin-graphics/imgui/issues/112](https://github.com/kotlin-graphics/imgui/issues/112).
+Requires at least Java 11 to run.
 
 ## Setup
 
