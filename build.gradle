@@ -32,8 +32,8 @@ dependencies {
 	}
 
 	// Workaround for https://github.com/kotlin-graphics/imgui/issues/112
-	compile "com.github.kotlin-graphics:uno-sdk:402f5f495429b7f2178a1d200c32bb5ed2f7e6fa"
-	compile "com.github.kotlin-graphics.glm:glm:1b4ac18dd1a3c23440d3f33596688aac60bc0141"
+	compile "com.github.kotlin-graphics:uno-sdk:20507e7d"
+	compile "com.github.kotlin-graphics:glm:5b0f3461"
 	compile group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib', version: '1.3.70'
 
 	repositories {
