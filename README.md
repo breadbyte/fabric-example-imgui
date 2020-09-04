@@ -2,7 +2,7 @@
 
 This is a fork of the Fabric Example Mod, modified to utilize the [kotlin-graphics/imgui library](https://github.com/kotlin-graphics/imgui).
 
-The R key should open the Demo GUI up.
+The R key should open the Demo GUI up. This is also configurable in the options menu ingame.
 
 Requires at least Java 11 to run.
 
