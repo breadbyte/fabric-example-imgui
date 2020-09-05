@@ -14,6 +14,7 @@ import net.minecraft.text.LiteralText;
 import uno.glfw.GlfwWindow;
 
 import java.util.Objects;
+import java.util.Vector;
 
 @Environment(EnvType.CLIENT)
 public class ImguiScreen extends Screen {
@@ -24,8 +25,9 @@ public class ImguiScreen extends Screen {
     private static ImplGlfw implGlfw;
 
     private static IO ImGuiIO;
+    private static Vector<Integer> keyBuffer = new Vector<Integer>();
 
-    public ImguiScreen(){
+    public ImguiScreen() {
         super(new LiteralText("ImguiScreen"));
     }
 
@@ -33,13 +35,17 @@ public class ImguiScreen extends Screen {
         ImguiKt.MINECRAFT_BEHAVIORS = true;
         GlfwWindow window = GlfwWindow.from(MinecraftClient.getInstance().getWindow().getHandle());
         window.makeContextCurrent();
+
         new Context();
         implGlfw = new ImplGlfw(window, false, null);
         implGl3 = new ImplGL3();
+
     }
 
     @Override
-    public boolean isPauseScreen() { return false; }
+    public boolean isPauseScreen() {
+        return false;
+    }
 
     @Override
     public boolean charTyped(char chr, int keyCode) {
@@ -51,21 +57,22 @@ public class ImguiScreen extends Screen {
     }
 
     @Override
-    public boolean mouseScrolled(double d, double e, double amount){
+    public boolean mouseScrolled(double d, double e, double amount) {
         if (ImGuiIO.getWantCaptureMouse()) {
             ImGuiIO.setMouseWheel((float) amount);
         }
-        super.mouseScrolled(d,e,amount);
+        super.mouseScrolled(d, e, amount);
         return true;
     }
 
     @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers){
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
         if (ImGuiIO.getWantCaptureKeyboard()) {
             ImGuiIO.getKeysDown()[keyCode] = true;
+            keyBuffer.add(keyCode);
         }
 
-        if (keyCode == 256){
+        if (keyCode == 256) {
             ImGuiIO.getKeysDown()[256] = false;
         }
 
@@ -81,15 +88,25 @@ public class ImguiScreen extends Screen {
     }
 
     @Override
+    public void onClose() {
+        for (int keyCode: keyBuffer) {
+            ImGuiIO.getKeysDown()[keyCode] = false;
+        }
+        keyBuffer.clear();
+        super.onClose();
+    }
+
+    @Override
     public void render(int x, int y, float partialTicks) {
         ImGuiIO = imgui.getIo();
+
         implGl3.newFrame();
         implGlfw.newFrame();
         imgui.newFrame();
 
-        imgui.showDemoWindow(new boolean[]{ true });
+        imgui.showDemoWindow(new boolean[]{true});
+
         imgui.render();
         implGl3.renderDrawData(Objects.requireNonNull(imgui.getDrawData()));
     }
-
 }
