@@ -30,6 +30,7 @@ public class ImguiScreen extends Screen {
         super(new LiteralText("ImguiScreen"));
     }
 
+    // Initialization for imgui.
     static {
         ImguiKt.MINECRAFT_BEHAVIORS = true;
         GlfwWindow window = GlfwWindow.from(MinecraftClient.getInstance().getWindow().getHandle());
@@ -38,32 +39,37 @@ public class ImguiScreen extends Screen {
         new Context();
         implGlfw = new ImplGlfw(window, false, null);
         implGl3 = new ImplGL3();
-
     }
 
+    // Prevents Minecraft from pausing the game whenever we open the GUI.
     @Override
     public boolean isPauseScreen() {
         return false;
     }
 
+    // Tells imgui to enter a character, when typing on a textbox or similar.
     @Override
     public boolean charTyped(char chr, int keyCode) {
         if (ImGuiIO.getWantTextInput()) {
             ImGuiIO.addInputCharacter(chr);
         }
+        
         super.charTyped(chr, keyCode);
         return true;
     }
 
+    // Passes mouse scrolling to imgui.
     @Override
     public boolean mouseScrolled(double d, double e, double amount) {
         if (ImGuiIO.getWantCaptureMouse()) {
             ImGuiIO.setMouseWheel((float) amount);
         }
+
         super.mouseScrolled(d, e, amount);
         return true;
     }
 
+    // Passes keypresses for imgui to handle.
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
         if (ImGuiIO.getWantCaptureKeyboard()) {
@@ -71,6 +77,7 @@ public class ImguiScreen extends Screen {
             keyBuffer.add(keyCode);
         }
 
+        // Skip handling of the ESC key, because Minecraft uses it to close the screen.
         if (keyCode == 256) {
             ImGuiIO.getKeysDown()[256] = false;
         }
@@ -79,20 +86,24 @@ public class ImguiScreen extends Screen {
         return true;
     }
 
+    // Tells imgui the keys pressed have been released.
     @Override
     public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
         ImGuiIO.getKeysDown()[keyCode] = false;
         keyBuffer.remove(keyCode);
+
         super.keyReleased(keyCode, scanCode, modifiers);
         return true;
     }
 
     @Override
     public void onClose() {
+        // When Minecraft closes the screen, clear the key buffer.
         for (int keyCode: keyBuffer) {
             ImGuiIO.getKeysDown()[keyCode] = false;
         }
         keyBuffer.clear();
+
         super.onClose();
     }
 
