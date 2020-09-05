@@ -13,8 +13,7 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.LiteralText;
 import uno.glfw.GlfwWindow;
 
-import java.util.Objects;
-import java.util.Vector;
+import java.util.*;
 
 @Environment(EnvType.CLIENT)
 public class ImguiScreen extends Screen {
@@ -25,7 +24,7 @@ public class ImguiScreen extends Screen {
     private static ImplGlfw implGlfw;
 
     private static IO ImGuiIO;
-    private static Vector<Integer> keyBuffer = new Vector<Integer>();
+    private static HashSet<Integer> keyBuffer = new HashSet<Integer>();
 
     public ImguiScreen() {
         super(new LiteralText("ImguiScreen"));
@@ -83,6 +82,7 @@ public class ImguiScreen extends Screen {
     @Override
     public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
         ImGuiIO.getKeysDown()[keyCode] = false;
+        keyBuffer.remove(keyCode);
         super.keyReleased(keyCode, scanCode, modifiers);
         return true;
     }
